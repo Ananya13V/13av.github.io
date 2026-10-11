@@ -111,7 +111,7 @@ h1{margin:0;font:italic 500 clamp(2.4rem,7.5vw,4.6rem)/1.08 var(--f-head);max-wi
     // the heading block sits in the vertical middle of the first screen; the hero is one screen tall
     var bh=center.offsetHeight,H=Math.max(560,Math.min(window.innerHeight||700,900));
     var padT=Math.max(48,(H-bh)/2),cx=w/2,cyA=padT+bh+4;
-    var ry=Math.min(mob?Math.min(w*.95,380):Math.min(w*.33,320),cyA-46),rx=Math.max(120,w/2-(mob?26:48));
+    var ry=Math.min(mob?Math.min(w*.72,280):Math.min(w*.33,320),cyA-46),rx=Math.max(120,w/2-(mob?26:48));
     hero.style.paddingTop=padT+'px';hero.style.paddingBottom=Math.max(120,H-padT-bh)+'px';hero.style.minHeight=H+'px';
     var th=Math.PI*(1-p),x=cx+rx*Math.cos(th),y=cyA-ry*Math.sin(th);
     var sS=46*sz,mS=40*sz;
