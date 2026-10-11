@@ -90,6 +90,35 @@ h1{margin:0;font:italic 500 clamp(2.4rem,7.5vw,4.6rem)/1.08 var(--f-head);max-wi
   .arrow.prev{left:8px}.arrow.next{right:8px}
 }
 @media (prefers-reduced-motion:reduce){.track{transition:none}}
+/* experience: day-to-night timeline, latest role first */
+:root{--sunc:#e2a93f;--moonc:#e9ecd4}
+.exp{max-width:1040px;margin:0 auto;padding-block:24px 120px;display:flex;flex-direction:column;gap:28px}
+.xtl{position:relative;overflow:hidden;padding:8px 0 8px 64px}
+.xtl .line{position:absolute;left:24px;top:8px;bottom:8px;width:2px;border-radius:2px;background:linear-gradient(var(--sunc),var(--olive) 55%,var(--muted));opacity:.8}
+.xtl .tglow{position:absolute;inset:0;pointer-events:none;transition:background .4s}
+.xtl .marker{position:absolute;left:9px;top:0;width:32px;height:32px;transform:translateY(var(--my,8px));z-index:2}
+.marker span{position:absolute;inset:0;border-radius:50%;transition:opacity .4s}
+.m-sun{background:var(--sunc);box-shadow:0 0 16px 4px rgba(226,169,63,.55)}
+.m-moon{background:var(--moonc);box-shadow:inset -6px -3px 0 0 #c3c9a6,0 0 16px 4px rgba(214,224,190,.4);opacity:0}
+.xentry{position:relative;padding-bottom:44px}.xentry:last-child{padding-bottom:0}
+.xentry::before{content:"";position:absolute;left:-39px;top:8px;width:12px;height:12px;border-radius:50%;background:var(--bg);border:2px solid var(--olive)}
+.when{font:500 .72rem var(--f-body);letter-spacing:.12em;text-transform:uppercase;color:var(--muted)}
+.role{margin:4px 0 0;font:italic 500 clamp(1.6rem,4vw,2.3rem)/1.15 var(--f-head);color:var(--head)}
+.org{font-weight:500;margin-top:2px}
+.bl{margin:12px 0 0;padding-left:18px;display:grid;gap:8px;font-size:.9rem;line-height:1.65;color:var(--muted);max-width:68ch}
+.bl li::marker{color:var(--olive)}
+.tracker{margin-top:18px;display:inline-flex;flex-direction:column;gap:10px;padding:14px 18px 12px;border:1px solid var(--line);border-radius:14px;background:color-mix(in srgb,var(--sunc) 8%,var(--bg));box-shadow:0 0 30px color-mix(in srgb,var(--sunc) 14%,transparent)}
+.tk-label{font:500 .68rem var(--f-body);letter-spacing:.14em;text-transform:uppercase;color:var(--muted)}
+.tk-row{display:flex;align-items:flex-start;gap:6px}
+.seg{display:flex;flex-direction:column;align-items:center;gap:4px;min-width:2.3ch}
+.num{font:700 clamp(1.5rem,6vw,2.3rem)/1 var(--f-body);font-variant-numeric:tabular-nums;color:var(--head)}
+.num.flip{animation:tickin .35s ease-out}
+.u{font:500 .6rem var(--f-body);letter-spacing:.14em;text-transform:uppercase;color:var(--muted)}
+.sep{font:700 clamp(1.3rem,5vw,2rem)/1 var(--f-body);color:var(--olive);opacity:.55;animation:blink 1s steps(2,jump-none) infinite}
+@keyframes tickin{from{opacity:.35;transform:translateY(-4px)}to{opacity:1;transform:none}}
+@keyframes blink{50%{opacity:.15}}
+@media (max-width:560px){.xtl{padding-left:52px}.xtl .line{left:18px}.xtl .marker{left:3px}.xentry::before{left:-39px}}
+@media (prefers-reduced-motion:reduce){.num.flip,.sep{animation:none}.marker span,.xtl .tglow{transition:none}}
 @media (max-width:699px){h1{max-width:11ch}}
 @media (prefers-reduced-motion:reduce){.orb,.glow,body{transition:none}.hero.disco-on .ball,.hero.disco-on .ball::before,.hero.disco-on .center{animation:none}}
 </style>
@@ -153,6 +182,39 @@ h1{margin:0;font:italic 500 clamp(2.4rem,7.5vw,4.6rem)/1.08 var(--f-head);max-wi
       <button class="dot" type="button" aria-label="Show project 1" aria-current="true"></button>
       <button class="dot" type="button" aria-label="Show project 2"></button>
       <button class="dot" type="button" aria-label="Show project 3"></button>
+    </div>
+  </section>
+
+  <section class="exp" id="experience" aria-label="Experience">
+    <div class="pr-head"><p class="eyebrow">Experience</p><h2>Where I've worked</h2></div>
+    <div class="xtl" id="xtl"><div class="line"></div><div class="tglow" id="xtg"></div><div class="marker" id="xmk"><span class="m-sun"></span><span class="m-moon"></span></div>
+      <article class="xentry">
+        <div class="when">Sept 2025 – Present</div><h3 class="role">Analyst II</h3><div class="org">Deloitte USI</div>
+        <!-- Placeholder start date: replace with the real joining date and time (keep the +05:30 offset or change it). -->
+        <div class="tracker" id="tracker" role="timer" data-start="2025-09-01T09:30:00+05:30" aria-label="Time on this engagement">
+          <span class="tk-label">Time on this engagement</span>
+          <div class="tk-row" aria-hidden="true">
+            <div class="seg"><span class="num" data-k="mo">00</span><span class="u">Months</span></div><span class="sep">:</span>
+            <div class="seg"><span class="num" data-k="d">00</span><span class="u">Days</span></div><span class="sep">:</span>
+            <div class="seg"><span class="num" data-k="h">00</span><span class="u">Hours</span></div><span class="sep">:</span>
+            <div class="seg"><span class="num" data-k="mi">00</span><span class="u">Min</span></div><span class="sep">:</span>
+            <div class="seg"><span class="num" data-k="s">00</span><span class="u">Sec</span></div>
+          </div>
+        </div>
+        <ul class="bl">
+          <li>Built core ERP components for a US client, integrating Oracle Redwood with the Visual Builder Studio framework. Backend work in Java and Oracle Field Services.</li>
+          <li>Moved onto a Varicent incentive compensation implementation as a developer, writing and maintaining the solution design document across the development lifecycle.</li>
+          <li>Switched to QA on the same engagement. Ran 3 sprints of Data Integration (Python validation pipelines) and Configuration testing, raised about 10 defects, the highest on the team, and earned lead recognition.</li>
+        </ul>
+      </article>
+      <article class="xentry">
+        <div class="when">June – July 2024</div><h3 class="role">AI Intern</h3><div class="org">Diro, Open Banking Platform</div>
+        <ul class="bl">
+          <li>Designed a data pipeline for confidential document verification, cutting processing time from 20 minutes to under 5 per task while keeping output precision high.</li>
+          <li>Built a video redaction pipeline (OCR plus classifier) that finds and masks sensitive fields in confidential bank documents, redacting 7 to 9 of 10 fields per document in early production trials.</li>
+          <li>Engineered a prompt-guided document translation pipeline with M2M100 (Hugging Face), writing prompts to control tone and formatting across 10 languages. Built, documented and shipped to production independently.</li>
+        </ul>
+      </article>
     </div>
   </section>
 
@@ -256,6 +318,38 @@ h1{margin:0;font:italic 500 clamp(2.4rem,7.5vw,4.6rem)/1.08 var(--f-head);max-wi
     vp.addEventListener('pointerup',function(e){end(e,false)});
     vp.addEventListener('pointercancel',function(e){end(e,true)});
     go(0);
+  })();
+
+  // Experience: the marker is a sun at the top (now) and turns into a moon further down; the tracker counts the current engagement live.
+  (function(){
+    var d=$('xtl'),mk=$('xmk'),tg=$('xtg'),sunE=mk.children[0],moonE=mk.children[1];
+    function tl(){
+      var r=d.getBoundingClientRect(),h=r.height,y=Math.max(8,Math.min(h-40,innerHeight*.5-r.top-16));
+      mk.style.setProperty('--my',y+'px');
+      var night=(y-8)/Math.max(1,h-48)>.55;
+      sunE.style.opacity=night?0:1;moonE.style.opacity=night?1:0;
+      var c=night?'rgba(214,224,190,.18)':'rgba(226,169,63,.2)';
+      tg.style.background='radial-gradient(circle 240px at 25px '+(y+16)+'px,'+c+',transparent 70%)';
+    }
+    addEventListener('scroll',tl,{passive:true});addEventListener('resize',tl);tl();
+
+    var tk=$('tracker'),start=new Date(tk.getAttribute('data-start')),els={},lastMin=-1,lastS=-1;
+    [].forEach.call(tk.querySelectorAll('.num'),function(n){els[n.getAttribute('data-k')]=n});
+    function pad(n){return n<10?'0'+n:''+n}
+    function anchor(m){var a=new Date(start.getTime()),day=a.getDate();a.setDate(1);a.setMonth(a.getMonth()+m);
+      a.setDate(Math.min(day,new Date(a.getFullYear(),a.getMonth()+1,0).getDate()));return a}
+    function tick(){
+      var now=new Date();
+      if(now<start)now=new Date(start.getTime());
+      var mo=(now.getFullYear()-start.getFullYear())*12+now.getMonth()-start.getMonth(),a=anchor(mo);
+      if(a>now){mo--;a=anchor(mo)}
+      var ms=now-a,days=Math.floor(ms/864e5);ms-=days*864e5;
+      var hh=Math.floor(ms/36e5);ms-=hh*36e5;var mi=Math.floor(ms/6e4);ms-=mi*6e4;var ss=Math.floor(ms/1e3);
+      els.mo.textContent=pad(mo);els.d.textContent=pad(days);els.h.textContent=pad(hh);els.mi.textContent=pad(mi);els.s.textContent=pad(ss);
+      if(ss!==lastS){lastS=ss;els.s.classList.remove('flip');void els.s.offsetWidth;els.s.classList.add('flip')}
+      if(mi!==lastMin){lastMin=mi;tk.setAttribute('aria-label','Time on this engagement: '+mo+' months, '+days+' days, '+hh+' hours, '+mi+' minutes')}
+    }
+    (function loop(){tick();setTimeout(loop,1000-(Date.now()%1000)+5)})();
   })();
 
   // Disco: 5 seconds of beams and light spots from the ball, eased in and out, then back to normal.
