@@ -108,17 +108,21 @@ h1{margin:0;font:italic 500 clamp(2.4rem,7.5vw,4.6rem)/1.08 var(--f-head);max-wi
 .bl{margin:12px 0 0;padding-left:18px;display:grid;gap:8px;font-size:.9rem;line-height:1.65;color:var(--muted);max-width:68ch}
 .bl li::marker{color:var(--olive)}
 .xhead{display:flex;justify-content:space-between;align-items:flex-start;gap:14px 32px;flex-wrap:wrap}
-.tracker{display:flex;flex-direction:column;align-items:flex-end;gap:7px;padding-top:6px}
+.tracker{position:relative;display:flex;flex-direction:column;align-items:flex-end;gap:5px;padding-top:6px}
 .tk-label{font:500 .62rem var(--f-body);letter-spacing:.16em;text-transform:uppercase;color:var(--muted)}
-.tk-row{display:flex;align-items:flex-start;gap:6px;font-variant-numeric:tabular-nums}
-.seg{display:flex;flex-direction:column;align-items:center;gap:3px}
-.num{font:500 clamp(1.05rem,3.2vw,1.35rem)/1 var(--f-body);color:var(--fg);opacity:.9}
-.num[data-k="s"]{color:var(--olive);opacity:1}
-.num.flip{animation:tickin .3s ease-out}
-.u{font:500 .55rem var(--f-body);letter-spacing:.12em;text-transform:uppercase;color:var(--muted);opacity:.85}
-.sep{font:400 1rem/1.35 var(--f-body);color:var(--muted);opacity:.45}
+.tk-main{display:flex;align-items:baseline;gap:10px;margin:0;padding:2px 0;border:0;background:none;font:inherit;color:var(--fg);cursor:pointer;font-variant-numeric:tabular-nums}
+.tk-main:focus-visible{outline:2px solid var(--olive);outline-offset:4px;border-radius:4px}
+.g{display:inline-flex;align-items:baseline;gap:3px;white-space:nowrap}
+.g b{font:500 clamp(1.05rem,3vw,1.3rem)/1 var(--f-body);opacity:.92}
+.g i{font:400 .72rem var(--f-body);font-style:normal;letter-spacing:.06em;color:var(--muted)}
+.g.s b{color:var(--olive);opacity:1;min-width:2ch;text-align:right}
+.g.s b.flip{animation:tickin .3s ease-out}
+.dotsep{color:var(--muted);opacity:.5}
+.tk-full{position:absolute;top:100%;right:0;z-index:3;margin-top:4px;padding:6px 10px;border:1px solid var(--line);border-radius:8px;background:var(--bg);font:400 .72rem var(--f-body);color:var(--muted);white-space:nowrap;font-variant-numeric:tabular-nums;opacity:0;visibility:hidden;transform:translateY(-3px);transition:opacity .2s,transform .2s,visibility .2s}
+.tracker.open .tk-full{opacity:1;visibility:visible;transform:none}
+@media (hover:hover){.tracker:hover .tk-full{opacity:1;visibility:visible;transform:none}}
 @keyframes tickin{from{opacity:.45}to{opacity:1}}
-@media (max-width:560px){.tracker{align-items:flex-start}.xtl{--pad:52px;--lx:19px}}
+@media (max-width:560px){.tracker{align-items:flex-start}.tk-full{right:auto;left:0}.xtl{--pad:52px;--lx:19px}}
 @media (prefers-reduced-motion:reduce){.num.flip,.sep{animation:none}.marker span,@media (max-width:699px){h1{max-width:11ch}}
 @media (prefers-reduced-motion:reduce){.orb,.glow,body{transition:none}.hero.disco-on .ball,.hero.disco-on .ball::before,.hero.disco-on .center{animation:none}}
 </style>
@@ -193,15 +197,12 @@ h1{margin:0;font:italic 500 clamp(2.4rem,7.5vw,4.6rem)/1.08 var(--f-head);max-wi
         <div class="xhead">
           <div><div class="when">Sept 2025 – Present</div><h3 class="role">Analyst II</h3><div class="org">Deloitte USI</div></div>
           <!-- Placeholder start date: replace with the real joining date and time (keep the +05:30 offset or change it). -->
-          <div class="tracker" id="tracker" role="timer" data-start="2025-09-01T09:30:00+05:30" aria-label="Time on this engagement">
+          <div class="tracker" id="tracker" role="timer" data-start="2025-09-01T09:30:00+05:30" aria-label="Growing Experience">
             <span class="tk-label">Growing Experience</span>
-            <div class="tk-row" aria-hidden="true">
-              <div class="seg"><span class="num" data-k="mo">00</span><span class="u">Months</span></div><span class="sep">:</span>
-              <div class="seg"><span class="num" data-k="d">00</span><span class="u">Days</span></div><span class="sep">:</span>
-              <div class="seg"><span class="num" data-k="h">00</span><span class="u">Hours</span></div><span class="sep">:</span>
-              <div class="seg"><span class="num" data-k="mi">00</span><span class="u">Min</span></div><span class="sep">:</span>
-              <div class="seg"><span class="num" data-k="s">00</span><span class="u">Sec</span></div>
-            </div>
+            <button class="tk-main" id="tkmain" type="button" aria-expanded="false" aria-controls="tkfull" aria-label="Growing Experience, show full breakdown">
+              <span class="g" data-g="y"><b></b><i>yr</i></span><span class="g" data-g="mo"><b></b><i>mo</i></span><span class="g" data-g="d"><b></b><i>d</i></span><span class="dotsep" aria-hidden="true">·</span><span class="g s"><b data-k="s">00</b><i>s</i></span>
+            </button>
+            <span class="tk-full" id="tkfull"></span>
           </div>
         </div>
         <ul class="bl">
@@ -337,11 +338,12 @@ h1{margin:0;font:italic 500 clamp(2.4rem,7.5vw,4.6rem)/1.08 var(--f-head);max-wi
     }
     addEventListener('scroll',tl,{passive:true});addEventListener('resize',tl);tl();
 
-    var tk=$('tracker'),start=new Date(tk.getAttribute('data-start')),els={},lastMin=-1,lastS=-1;
-    [].forEach.call(tk.querySelectorAll('.num'),function(n){els[n.getAttribute('data-k')]=n});
+    var tk=$('tracker'),start=new Date(tk.getAttribute('data-start')),mainBtn=$('tkmain'),full=$('tkfull'),lastS=-1,lastMin=-1;
+    var gy=tk.querySelector('[data-g="y"]'),gmo=tk.querySelector('[data-g="mo"]'),gd=tk.querySelector('[data-g="d"]'),sEl=tk.querySelector('[data-k="s"]');
     function pad(n){return n<10?'0'+n:''+n}
     function anchor(m){var a=new Date(start.getTime()),day=a.getDate();a.setDate(1);a.setMonth(a.getMonth()+m);
       a.setDate(Math.min(day,new Date(a.getFullYear(),a.getMonth()+1,0).getDate()));return a}
+    function setG(g,v){g.firstChild.textContent=v;g.hidden=false}
     function tick(){
       var now=new Date();
       if(now<start)now=new Date(start.getTime());
@@ -349,10 +351,18 @@ h1{margin:0;font:italic 500 clamp(2.4rem,7.5vw,4.6rem)/1.08 var(--f-head);max-wi
       if(a>now){mo--;a=anchor(mo)}
       var ms=now-a,days=Math.floor(ms/864e5);ms-=days*864e5;
       var hh=Math.floor(ms/36e5);ms-=hh*36e5;var mi=Math.floor(ms/6e4);ms-=mi*6e4;var ss=Math.floor(ms/1e3);
-      els.mo.textContent=pad(mo);els.d.textContent=pad(days);els.h.textContent=pad(hh);els.mi.textContent=pad(mi);els.s.textContent=pad(ss);
-      if(ss!==lastS){lastS=ss;els.s.classList.remove('flip');void els.s.offsetWidth;els.s.classList.add('flip')}
-      if(mi!==lastMin){lastMin=mi;tk.setAttribute('aria-label','Time on this engagement: '+mo+' months, '+days+' days, '+hh+' hours, '+mi+' minutes')}
+      var yrs=Math.floor(mo/12),mos=mo%12;
+      if(yrs>0)setG(gy,yrs);else gy.hidden=true;
+      if(yrs>0||mos>0)setG(gmo,mos);else gmo.hidden=true;
+      setG(gd,days);
+      sEl.textContent=pad(ss);
+      full.textContent=mo+' months · '+days+' days · '+pad(hh)+' hours · '+pad(mi)+' min · '+pad(ss)+' sec';
+      if(ss!==lastS){lastS=ss;sEl.classList.remove('flip');void sEl.offsetWidth;sEl.classList.add('flip')}
+      if(mi!==lastMin){lastMin=mi;tk.setAttribute('aria-label','Growing Experience: '+mo+' months, '+days+' days, '+hh+' hours, '+mi+' minutes')}
     }
+    mainBtn.addEventListener('click',function(e){e.stopPropagation();var o=!tk.classList.contains('open');tk.classList.toggle('open',o);mainBtn.setAttribute('aria-expanded',o)});
+    document.addEventListener('click',function(){tk.classList.remove('open');mainBtn.setAttribute('aria-expanded','false')});
+    document.addEventListener('keydown',function(e){if(e.key==='Escape'){tk.classList.remove('open');mainBtn.setAttribute('aria-expanded','false')}});
     (function loop(){tick();setTimeout(loop,1000-(Date.now()%1000)+5)})();
   })();
 
