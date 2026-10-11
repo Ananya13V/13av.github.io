@@ -93,10 +93,10 @@ h1{margin:0;font:italic 500 clamp(2.4rem,7.5vw,4.6rem)/1.08 var(--f-head);max-wi
 /* experience: day-to-night timeline, latest role first */
 :root{--sunc:#e2a93f;--moonc:#e9ecd4}
 .exp{max-width:1040px;margin:0 auto;padding-block:24px 120px;display:flex;flex-direction:column;gap:28px}
-.xtl{position:relative;overflow:hidden;padding:8px 0 8px 64px}
+.xtl{position:relative;padding:8px 0 8px 64px}
 .xtl .line{position:absolute;left:24px;top:8px;bottom:8px;width:2px;border-radius:2px;background:linear-gradient(var(--sunc),var(--olive) 55%,var(--muted));opacity:.8}
-.xtl .tglow{position:absolute;inset:0;pointer-events:none;transition:background .4s}
 .xtl .marker{position:absolute;left:9px;top:0;width:32px;height:32px;transform:translateY(var(--my,8px));z-index:2}
+.xglow{position:fixed;inset:0;z-index:-1;pointer-events:none;opacity:0;transition:opacity .5s}
 .marker span{position:absolute;inset:0;border-radius:50%;transition:opacity .4s}
 .m-sun{background:var(--sunc);box-shadow:0 0 16px 4px rgba(226,169,63,.55)}
 .m-moon{background:var(--moonc);box-shadow:inset -6px -3px 0 0 #c3c9a6,0 0 16px 4px rgba(214,224,190,.4);opacity:0}
@@ -107,19 +107,19 @@ h1{margin:0;font:italic 500 clamp(2.4rem,7.5vw,4.6rem)/1.08 var(--f-head);max-wi
 .org{font-weight:500;margin-top:2px}
 .bl{margin:12px 0 0;padding-left:18px;display:grid;gap:8px;font-size:.9rem;line-height:1.65;color:var(--muted);max-width:68ch}
 .bl li::marker{color:var(--olive)}
-.tracker{margin-top:18px;display:inline-flex;flex-direction:column;gap:10px;padding:14px 18px 12px;border:1px solid var(--line);border-radius:14px;background:color-mix(in srgb,var(--sunc) 8%,var(--bg));box-shadow:0 0 30px color-mix(in srgb,var(--sunc) 14%,transparent)}
-.tk-label{font:500 .68rem var(--f-body);letter-spacing:.14em;text-transform:uppercase;color:var(--muted)}
-.tk-row{display:flex;align-items:flex-start;gap:6px}
-.seg{display:flex;flex-direction:column;align-items:center;gap:4px;min-width:2.3ch}
-.num{font:700 clamp(1.5rem,6vw,2.3rem)/1 var(--f-body);font-variant-numeric:tabular-nums;color:var(--head)}
-.num.flip{animation:tickin .35s ease-out}
-.u{font:500 .6rem var(--f-body);letter-spacing:.14em;text-transform:uppercase;color:var(--muted)}
-.sep{font:700 clamp(1.3rem,5vw,2rem)/1 var(--f-body);color:var(--olive);opacity:.55;animation:blink 1s steps(2,jump-none) infinite}
-@keyframes tickin{from{opacity:.35;transform:translateY(-4px)}to{opacity:1;transform:none}}
-@keyframes blink{50%{opacity:.15}}
-@media (max-width:560px){.xtl{padding-left:52px}.xtl .line{left:18px}.xtl .marker{left:3px}.xentry::before{left:-39px}}
-@media (prefers-reduced-motion:reduce){.num.flip,.sep{animation:none}.marker span,.xtl .tglow{transition:none}}
-@media (max-width:699px){h1{max-width:11ch}}
+.xhead{display:flex;justify-content:space-between;align-items:flex-start;gap:14px 32px;flex-wrap:wrap}
+.tracker{display:flex;flex-direction:column;align-items:flex-end;gap:7px;padding-top:6px}
+.tk-label{font:500 .62rem var(--f-body);letter-spacing:.16em;text-transform:uppercase;color:var(--muted)}
+.tk-row{display:flex;align-items:flex-start;gap:6px;font-variant-numeric:tabular-nums}
+.seg{display:flex;flex-direction:column;align-items:center;gap:3px}
+.num{font:500 clamp(1.05rem,3.2vw,1.35rem)/1 var(--f-body);color:var(--fg);opacity:.9}
+.num[data-k="s"]{color:var(--olive);opacity:1}
+.num.flip{animation:tickin .3s ease-out}
+.u{font:500 .55rem var(--f-body);letter-spacing:.12em;text-transform:uppercase;color:var(--muted);opacity:.85}
+.sep{font:400 1rem/1.35 var(--f-body);color:var(--muted);opacity:.45}
+@keyframes tickin{from{opacity:.45}to{opacity:1}}
+@media (max-width:560px){.tracker{align-items:flex-start}.xtl{padding-left:52px}.xtl .line{left:18px}.xtl .marker{left:3px}.xentry::before{left:-39px}}
+@media (prefers-reduced-motion:reduce){.num.flip,.sep{animation:none}.marker span,@media (max-width:699px){h1{max-width:11ch}}
 @media (prefers-reduced-motion:reduce){.orb,.glow,body{transition:none}.hero.disco-on .ball,.hero.disco-on .ball::before,.hero.disco-on .center{animation:none}}
 </style>
 
@@ -187,18 +187,21 @@ h1{margin:0;font:italic 500 clamp(2.4rem,7.5vw,4.6rem)/1.08 var(--f-head);max-wi
 
   <section class="exp" id="experience" aria-label="Experience">
     <div class="pr-head"><p class="eyebrow">Experience</p><h2>Where I've worked</h2></div>
-    <div class="xtl" id="xtl"><div class="line"></div><div class="tglow" id="xtg"></div><div class="marker" id="xmk"><span class="m-sun"></span><span class="m-moon"></span></div>
+    <div class="xglow" id="xglow"></div>
+    <div class="xtl" id="xtl"><div class="line"></div><div class="marker" id="xmk"><span class="m-sun"></span><span class="m-moon"></span></div>
       <article class="xentry">
-        <div class="when">Sept 2025 – Present</div><h3 class="role">Analyst II</h3><div class="org">Deloitte USI</div>
-        <!-- Placeholder start date: replace with the real joining date and time (keep the +05:30 offset or change it). -->
-        <div class="tracker" id="tracker" role="timer" data-start="2025-09-01T09:30:00+05:30" aria-label="Time on this engagement">
-          <span class="tk-label">Time on this engagement</span>
-          <div class="tk-row" aria-hidden="true">
-            <div class="seg"><span class="num" data-k="mo">00</span><span class="u">Months</span></div><span class="sep">:</span>
-            <div class="seg"><span class="num" data-k="d">00</span><span class="u">Days</span></div><span class="sep">:</span>
-            <div class="seg"><span class="num" data-k="h">00</span><span class="u">Hours</span></div><span class="sep">:</span>
-            <div class="seg"><span class="num" data-k="mi">00</span><span class="u">Min</span></div><span class="sep">:</span>
-            <div class="seg"><span class="num" data-k="s">00</span><span class="u">Sec</span></div>
+        <div class="xhead">
+          <div><div class="when">Sept 2025 – Present</div><h3 class="role">Analyst II</h3><div class="org">Deloitte USI</div></div>
+          <!-- Placeholder start date: replace with the real joining date and time (keep the +05:30 offset or change it). -->
+          <div class="tracker" id="tracker" role="timer" data-start="2025-09-01T09:30:00+05:30" aria-label="Time on this engagement">
+            <span class="tk-label">On this engagement</span>
+            <div class="tk-row" aria-hidden="true">
+              <div class="seg"><span class="num" data-k="mo">00</span><span class="u">Months</span></div><span class="sep">:</span>
+              <div class="seg"><span class="num" data-k="d">00</span><span class="u">Days</span></div><span class="sep">:</span>
+              <div class="seg"><span class="num" data-k="h">00</span><span class="u">Hours</span></div><span class="sep">:</span>
+              <div class="seg"><span class="num" data-k="mi">00</span><span class="u">Min</span></div><span class="sep">:</span>
+              <div class="seg"><span class="num" data-k="s">00</span><span class="u">Sec</span></div>
+            </div>
           </div>
         </div>
         <ul class="bl">
@@ -322,14 +325,15 @@ h1{margin:0;font:italic 500 clamp(2.4rem,7.5vw,4.6rem)/1.08 var(--f-head);max-wi
 
   // Experience: the marker is a sun at the top (now) and turns into a moon further down; the tracker counts the current engagement live.
   (function(){
-    var d=$('xtl'),mk=$('xmk'),tg=$('xtg'),sunE=mk.children[0],moonE=mk.children[1];
+    var d=$('xtl'),mk=$('xmk'),gl=$('xglow'),sunE=mk.children[0],moonE=mk.children[1];
     function tl(){
       var r=d.getBoundingClientRect(),h=r.height,y=Math.max(8,Math.min(h-40,innerHeight*.5-r.top-16));
       mk.style.setProperty('--my',y+'px');
       var night=(y-8)/Math.max(1,h-48)>.55;
       sunE.style.opacity=night?0:1;moonE.style.opacity=night?1:0;
-      var c=night?'rgba(214,224,190,.18)':'rgba(226,169,63,.2)';
-      tg.style.background='radial-gradient(circle 240px at 25px '+(y+16)+'px,'+c+',transparent 70%)';
+      var m=mk.getBoundingClientRect(),c=night?'rgba(214,224,190,.17)':'rgba(226,169,63,.2)';
+      gl.style.background='radial-gradient(circle 300px at '+(m.left+16)+'px '+(m.top+16)+'px,'+c+',transparent 70%)';
+      gl.style.opacity=Math.max(0,Math.min(1,r.bottom/200,(innerHeight-r.top)/200));
     }
     addEventListener('scroll',tl,{passive:true});addEventListener('resize',tl);tl();
 
