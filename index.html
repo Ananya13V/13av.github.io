@@ -1,0 +1,230 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="description" content="Ananya Verma's portfolio.">
+<style>html{color-scheme:light}body{margin:0}</style>
+<title>Ananya Verma</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&family=Playfair+Display:ital,wght@1,500&display=swap">
+<style>
+/* Layout: one scrolling page. Hero first: the heading sits at the centre of a half-ellipse orbit; the sun (6am-6pm) or moon (6pm-6am) travels along it by local time and lights the text. */
+:root{
+  --bg:#f3f2e7; --fg:#262a1b; --muted:#6a6f55; --line:#cfcfb6; --surface:#e9e8d6;
+  --head:#4e5b1c; --olive:#6b7a2a; --shadow-c:78 91 28;
+  --f-head:'Playfair Display',Georgia,serif; --f-body:'DM Sans',system-ui,sans-serif;
+}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
+  --bg:#15180f; --fg:#e8e9d6; --muted:#a2a888; --line:#333a22; --surface:#1e2315;
+  --head:#c3d371; --olive:#a3b64a; --shadow-c:0 0 0; color-scheme:dark}}
+:root[data-theme="dark"]{
+  --bg:#15180f; --fg:#e8e9d6; --muted:#a2a888; --line:#333a22; --surface:#1e2315;
+  --head:#c3d371; --olive:#a3b64a; --shadow-c:0 0 0; color-scheme:dark}
+body{background:var(--bg);color:var(--fg);font:16px/1.55 var(--f-body);padding-inline:16px;transition:background .6s,color .6s}
+.page{margin:0 auto}
+.top,.dev{max-width:1040px;margin-inline:auto}
+.top{display:flex;justify-content:space-between;align-items:center;gap:12px;padding-block:16px}
+.mark{font:italic 500 1.4rem var(--f-head);color:var(--head)}
+.controls{display:flex;gap:8px;flex-wrap:wrap}
+button{font:500 .85rem var(--f-body);cursor:pointer;border:1px solid var(--line);background:var(--surface);color:var(--fg);padding:7px 14px;border-radius:999px}
+button:hover{border-color:var(--olive)}
+button:focus-visible,input:focus-visible{outline:2px solid var(--olive);outline-offset:2px}
+.themebtn{position:fixed;z-index:5;top:calc(env(safe-area-inset-top,0px) + 12px);right:16px;background:color-mix(in srgb,var(--surface) 80%,transparent);backdrop-filter:blur(6px)}
+.hero{margin-inline:-16px;position:relative;overflow:hidden;padding-top:clamp(120px,22vw,190px);padding-bottom:120px;box-sizing:border-box}
+/* disco ball and its 5-second party */
+.disco{position:absolute;z-index:4;right:max(44px,3vw);bottom:clamp(32px,9vh,96px);width:72px;height:72px;padding:0;border:0;background:none;border-radius:50%;cursor:pointer;-webkit-tap-highlight-color:transparent}
+.disco:focus-visible{outline:2px solid var(--olive);outline-offset:4px}
+.ball{position:absolute;left:0;top:0;width:72px;height:72px;border-radius:50%;box-shadow:0 10px 18px rgba(0,0,0,.32);transition:transform .2s}
+.disco:hover .ball{transform:scale(1.06)}
+.ringtext{position:absolute;left:-44px;top:-44px;width:160px;height:160px;overflow:visible}
+.ringtext text{font:italic 500 11.5px var(--f-head);letter-spacing:.2em;fill:var(--muted)}
+.fx{position:absolute;inset:0;width:100%;height:100%;z-index:3;pointer-events:none}
+.hero.disco-on .ball{animation:glow 1.2s linear infinite}
+.hero.disco-on .center{animation:beat .5s ease-in-out infinite}
+@keyframes glow{0%{box-shadow:0 0 22px 6px #ff3d9a}25%{box-shadow:0 0 22px 6px #ffd23d}50%{box-shadow:0 0 22px 6px #3dffb0}75%{box-shadow:0 0 22px 6px #3da0ff}100%{box-shadow:0 0 22px 6px #ff3d9a}}
+@keyframes beat{50%{transform:scale(1.015)}}
+.glow{position:absolute;inset:0;pointer-events:none;transition:opacity .6s}
+.orb{position:absolute;left:0;top:0;border-radius:50%;transition:transform .5s ease,opacity .8s;pointer-events:none}
+.sun{width:46px;height:46px;background:#e2a93f;box-shadow:0 0 28px 8px rgba(226,169,63,.55),0 0 90px 24px rgba(226,169,63,.25)}
+.moon{width:40px;height:40px;background:#e9ecd4;box-shadow:inset -9px -4px 0 0 #c3c9a6,0 0 26px 6px rgba(214,224,190,.45),0 0 80px 20px rgba(214,224,190,.18)}
+.center{position:relative;z-index:2;display:flex;flex-direction:column;align-items:center;text-align:center;gap:14px;padding-inline:8px;
+  filter:drop-shadow(var(--ox,0px) var(--oy,6px) var(--blur,9px) rgb(var(--shadow-c) / var(--shadow-a,.3)))}
+.eyebrow{margin:0;font:500 .72rem var(--f-body);letter-spacing:.16em;text-transform:uppercase;color:var(--muted)}
+h1{margin:0;font:italic 500 clamp(2.4rem,7.5vw,4.6rem)/1.08 var(--f-head);max-width:14ch;text-wrap:balance;color:var(--head);padding-bottom:.08em}
+@supports (background-clip:text) or (-webkit-background-clip:text){
+  h1{background:radial-gradient(circle 300px at var(--lx,50%) var(--ly,0px),var(--head-lit,var(--head)),var(--head) 80%);-webkit-background-clip:text;background-clip:text;color:transparent}}
+.sub{margin:0;max-width:44ch;color:var(--fg);font-size:.88rem}
+.dev{margin-top:24px;margin-bottom:24px;border:1px dashed var(--line);border-radius:10px;padding:14px 16px;display:flex;flex-wrap:wrap;gap:12px 20px;align-items:center}
+.dev b{font-weight:700;font-size:.85rem}
+.dev .muted{color:var(--muted);font-size:.85rem}
+.dev input[type=range]{flex:1 1 220px;min-width:0;accent-color:var(--olive)}
+.dev time{font-variant-numeric:tabular-nums;min-width:11ch}
+@media (max-width:699px){h1{max-width:11ch}}
+@media (prefers-reduced-motion:reduce){.orb,.glow,body{transition:none}.hero.disco-on .ball,.hero.disco-on .ball::before,.hero.disco-on .center{animation:none}}
+</style>
+
+</head>
+<body>
+<div class="page">
+  <button id="theme" class="themebtn" type="button">Switch to dark</button>
+
+  <section class="hero" id="hero" aria-label="Introduction">
+    <div class="glow" id="glow"></div>
+    <div class="orb sun" id="sun" aria-hidden="true"></div>
+    <div class="orb moon" id="moon" aria-hidden="true"></div>
+    <canvas class="fx" id="fx" aria-hidden="true"></canvas>
+    <button class="disco" id="disco" type="button" aria-label="Press for a five second disco">
+      <svg class="ringtext" viewBox="0 0 160 160" aria-hidden="true">
+        <defs><path id="ringpath" d="M30.76 71.32 A50 50 0 0 1 129.24 71.32"/></defs>
+        <text text-anchor="middle"><textPath href="#ringpath" startOffset="50%">PRESS ME</textPath></text>
+      </svg>
+      <canvas class="ball" id="ball" aria-hidden="true"></canvas>
+    </button>
+    <div class="center" id="center">
+      <p class="eyebrow">Ananya Verma</p>
+      <h1 id="h1">Work by day, ideas by night.</h1>
+      <p class="sub">Scroll to be a part of my World</p>
+    </div>
+  </section>
+
+</div>
+
+<script>
+(function(){
+  var root=document.documentElement,$=function(i){return document.getElementById(i)};
+  var hero=$('hero'),center=$('center'),h1=$('h1'),sun=$('sun'),moon=$('moon'),glow=$('glow');
+  var tm={},clock={},btn=$('theme');
+  var manual=null,override=null;
+  function nowH(){if(override!==null)return override;var d=new Date();return d.getHours()+d.getMinutes()/60}
+  function fmt(t){var h=Math.floor(t)%24,m=Math.round((t-Math.floor(t))*60);if(m===60){m=0;h=(h+1)%24}
+    var s=h>=12?'pm':'am',h12=h%12||12;return h12+':'+(m<10?'0':'')+m+' '+s}
+  function render(){
+    var t=nowH(),day=t>=6&&t<18;
+    var p=day?(t-6)/12:((t-18+24)%24)/12;
+    var theme=manual||(day?'light':'dark');
+    root.setAttribute('data-theme',theme);
+    btn.textContent=theme==='dark'?'Switch to light':'Switch to dark';
+    clock.textContent=fmt(t)+(day?' · day':' · night');
+    if(override===null)tm.value=t;
+    // wide and flat on desktop, narrower and taller on phones
+    var w=hero.clientWidth,mob=w<700,sz=mob?.8:1,k=mob?.65:1;
+    // the heading block sits in the vertical middle of the first screen; the hero is one screen tall
+    var bh=center.offsetHeight,H=Math.max(560,Math.min(window.innerHeight||700,900));
+    var padT=Math.max(48,(H-bh)/2),cx=w/2,cyA=padT+bh+4;
+    var ry=Math.min(mob?Math.min(w*.95,380):Math.min(w*.33,320),cyA-46),rx=Math.max(120,w/2-(mob?26:48));
+    hero.style.paddingTop=padT+'px';hero.style.paddingBottom=Math.max(120,H-padT-bh)+'px';hero.style.minHeight=H+'px';
+    var th=Math.PI*(1-p),x=cx+rx*Math.cos(th),y=cyA-ry*Math.sin(th);
+    var sS=46*sz,mS=40*sz;
+    sun.style.width=sun.style.height=sS+'px';moon.style.width=moon.style.height=mS+'px';
+    var o=day?sun:moon,off=(day?sS:mS)/2;
+    o.style.transform='translate('+(x-off)+'px,'+(y-off)+'px)';o.style.opacity=1;
+    var other=day?moon:sun,off2=(day?mS:sS)/2;other.style.transform='translate('+(x-off2)+'px,'+(y-off2)+'px)';other.style.opacity=0;
+    var gc=day?'rgba(226,169,63,.30)':'rgba(214,224,190,.16)';
+    glow.style.background='radial-gradient(circle 380px at '+x+'px '+y+'px,'+gc+',transparent 70%)';
+    // light on the text: shadow falls away from the light, strongest when the light is low
+    var s=Math.sin(th),c=Math.cos(th);
+    center.style.setProperty('--ox',(-c*24*k).toFixed(1)+'px');
+    center.style.setProperty('--oy',((3+9*s)*k).toFixed(1)+'px');
+    center.style.setProperty('--blur',((9+6*(1-s))*k).toFixed(1)+'px');
+    var a=(theme==='dark'?.65:.32)*(day?1:.7);
+    center.style.setProperty('--shadow-a',a.toFixed(2));
+    var hrr=h1.getBoundingClientRect();
+    h1.style.setProperty('--lx',(x-hrr.left)+'px');h1.style.setProperty('--ly',(y-hrr.top)+'px');
+    var lit=day?'#f3c864':'#f1f4dc',amt=day?(theme==='light'?38:28):(theme==='dark'?45:12);
+    h1.style.setProperty('--head-lit','color-mix(in srgb, var(--head) '+(100-amt)+'%, '+lit+')');
+  }
+  btn.addEventListener('click',function(){var cur=root.getAttribute('data-theme');manual=cur==='dark'?'light':'dark';render()});
+  window.addEventListener('resize',render);
+  if(window.ResizeObserver)new ResizeObserver(render).observe(hero);
+  if(document.fonts&&document.fonts.ready)document.fonts.ready.then(render);
+  setInterval(function(){if(override===null)render()},30000);
+  render();
+
+  // Disco: 5 seconds of beams and light spots from the ball, eased in and out, then back to normal.
+  var fx=$('fx'),ctx=fx.getContext&&fx.getContext('2d'),running=false,DUR=5000,EASE=450;
+  var calm=window.matchMedia&&matchMedia('(prefers-reduced-motion:reduce)').matches,speed=calm?.3:1;
+  var spots=[];for(var i=0;i<42;i++)spots.push({a:Math.random()*6.283,r:.15+Math.random()*.9,s:(Math.random()<.5?-1:1)*(.00018+Math.random()*.0004),z:8+Math.random()*20,h:Math.random()*360});
+  function disco(){
+    if(running||!ctx)return;running=true;
+    var dpr=Math.min(window.devicePixelRatio||1,2),w=hero.clientWidth,h=hero.clientHeight;
+    fx.width=w*dpr;fx.height=h*dpr;ctx.setTransform(dpr,0,0,dpr,0,0);
+    var hb=hero.getBoundingClientRect(),bb=$('disco').getBoundingClientRect();
+    var bx=bb.left-hb.left+bb.width/2,by=bb.top-hb.top+bb.height/2,reach=Math.hypot(w,h)*1.1;
+    hero.classList.add('disco-on');var t0=performance.now();
+    function frame(now){
+      var e=now-t0;
+      if(e>=DUR+EASE){ctx.clearRect(0,0,w,h);hero.classList.remove('disco-on');running=false;discoK=0;return}
+      var k=e<EASE?e/EASE:(e>DUR?1-(e-DUR)/EASE:1),beat=calm?1:.8+.2*Math.sin(e/250*Math.PI/2*2);
+      discoK=k;ctx.globalCompositeOperation='source-over';ctx.clearRect(0,0,w,h);
+      ctx.fillStyle='rgba(12,10,26,'+(.55*k).toFixed(3)+')';ctx.fillRect(0,0,w,h);
+      ctx.globalCompositeOperation='lighter';
+      for(var b=0;b<6;b++){
+        var ang=Math.PI+(Math.PI/2)*(.5+.5*Math.sin(e*.0013*speed+b*1.3)),half=.07+.03*Math.sin(e*.002+b);
+        var hue=(e*.06*speed+b*60)%360,tx=bx+Math.cos(ang)*reach,ty=by+Math.sin(ang)*reach;
+        var g=ctx.createLinearGradient(bx,by,tx,ty);
+        g.addColorStop(0,'hsla('+hue+',100%,62%,'+(.5*k*beat).toFixed(3)+')');g.addColorStop(1,'hsla('+hue+',100%,62%,0)');
+        ctx.fillStyle=g;ctx.beginPath();ctx.moveTo(bx,by);
+        ctx.lineTo(bx+Math.cos(ang-half)*reach,by+Math.sin(ang-half)*reach);
+        ctx.lineTo(bx+Math.cos(ang+half)*reach,by+Math.sin(ang+half)*reach);ctx.closePath();ctx.fill();
+      }
+      for(var i=0;i<spots.length;i++){
+        var sp=spots[i],a=sp.a+e*sp.s*speed*4,r=sp.r*reach*.75,x=bx+Math.cos(a)*r,y=by+Math.sin(a)*r;
+        if(x<-30||x>w+30||y<-30||y>h+30)continue;
+        var tw=.55+.45*Math.sin(e/300+i*1.7),hh=(sp.h+e*.05*speed)%360;
+        var rg=ctx.createRadialGradient(x,y,0,x,y,sp.z);
+        rg.addColorStop(0,'hsla('+hh+',100%,75%,'+(.85*k*tw).toFixed(3)+')');rg.addColorStop(1,'hsla('+hh+',100%,60%,0)');
+        ctx.fillStyle=rg;ctx.beginPath();ctx.arc(x,y,sp.z,0,6.283);ctx.fill();
+      }
+      requestAnimationFrame(frame);
+    }
+    requestAnimationFrame(frame);
+  }
+  $('disco').addEventListener('click',disco);
+
+  // Mirror ball: a sphere of small tiles, lit from the upper left, slowly turning. Tiles pick up colour during the disco.
+  var discoK=0,bc=$('ball'),bx2=bc.getContext&&bc.getContext('2d'),S=144,NL=11,rot=0,lastT=0;
+  bc.width=bc.height=S;
+  function hsh(i,j){var x=Math.sin(i*127.1+j*311.7)*43758.5453;return x-Math.floor(x)}
+  var Lv=[-.45,.6,.66],Ll=Math.hypot(Lv[0],Lv[1],Lv[2]);Lv=[Lv[0]/Ll,Lv[1]/Ll,Lv[2]/Ll];
+  var tilt=.38,ct=Math.cos(tilt),st=Math.sin(tilt);
+  function drawBall(t){
+    var c=S/2,R=c-3,PI=Math.PI;
+    bx2.clearRect(0,0,S,S);
+    var g=bx2.createRadialGradient(c*.8,c*.7,R*.1,c,c,R);g.addColorStop(0,'#c9cdd5');g.addColorStop(1,'#2e323b');
+    bx2.fillStyle=g;bx2.beginPath();bx2.arc(c,c,R,0,PI*2);bx2.fill();
+    function P(lat,lon){var X=Math.cos(lat)*Math.sin(lon),Y=Math.sin(lat),Z=Math.cos(lat)*Math.cos(lon);
+      var Y2=Y*ct-Z*st,Z2=Y*st+Z*ct;return[c+R*X,c-R*Y2,Z2,X,Y2]}
+    bx2.lineWidth=1.1;bx2.strokeStyle='rgba(18,20,28,.7)';bx2.lineJoin='round';
+    for(var i=0;i<NL;i++){
+      var la0=-PI/2+PI*i/NL,la1=-PI/2+PI*(i+1)/NL,lam=(la0+la1)/2,n=Math.max(5,Math.round(2*NL*Math.cos(lam)));
+      for(var j=0;j<n;j++){
+        var lo0=2*PI*j/n+rot,lo1=2*PI*(j+1)/n+rot,pm=P(lam,(lo0+lo1)/2);
+        if(pm[2]<=.03)continue;
+        var p0=P(la0,lo0),p1=P(la0,lo1),p2=P(la1,lo1),p3=P(la1,lo0);
+        var h=hsh(i,j),diff=Math.max(0,pm[3]*Lv[0]+pm[4]*Lv[1]+pm[2]*Lv[2]);
+        var v=(60+diff*120+h*55)*(.3+.7*Math.pow(pm[2],.6));
+        var sp=Math.pow(Math.max(0,Math.sin(rot*2.4+h*40)),28);v+=sp*140;
+        var l=Math.max(8,Math.min(96,v/255*100)),hue=discoK>0?(h*360+t*.08)%360:225,sat=discoK>0?discoK*(55+sp*40):7;
+        bx2.fillStyle='hsl('+hue.toFixed(0)+','+sat.toFixed(0)+'%,'+l.toFixed(0)+'%)';
+        bx2.beginPath();bx2.moveTo(p0[0],p0[1]);bx2.lineTo(p1[0],p1[1]);bx2.lineTo(p2[0],p2[1]);bx2.lineTo(p3[0],p3[1]);bx2.closePath();bx2.fill();bx2.stroke();
+      }
+    }
+    bx2.globalCompositeOperation='source-atop';
+    var rim=bx2.createRadialGradient(c,c,R*.55,c,c,R);rim.addColorStop(0,'rgba(0,0,0,0)');rim.addColorStop(1,'rgba(0,0,10,.55)');
+    bx2.fillStyle=rim;bx2.fillRect(0,0,S,S);
+    var gl=bx2.createRadialGradient(c*.72,c*.62,0,c*.72,c*.62,R*.5);gl.addColorStop(0,'rgba(255,255,255,.7)');gl.addColorStop(1,'rgba(255,255,255,0)');
+    bx2.fillStyle=gl;bx2.fillRect(0,0,S,S);
+    bx2.globalCompositeOperation='source-over';
+  }
+  if(bx2){
+    (function tick(now){
+      var dt=lastT?Math.min(.05,(now-lastT)/1000):0;lastT=now;
+      rot+=dt*(discoK>0?(calm?.5:2.4):(calm?0:.14));
+      drawBall(now||0);requestAnimationFrame(tick);
+    })(0);
+  }
+})();
+</script>
+
+</body>
+</html>
