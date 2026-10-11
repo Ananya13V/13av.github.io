@@ -60,7 +60,7 @@ h1{margin:0;font:italic 500 clamp(2.4rem,7.5vw,4.6rem)/1.08 var(--f-head);max-wi
 .dev input[type=range]{flex:1 1 220px;min-width:0;accent-color:var(--olive)}
 .dev time{font-variant-numeric:tabular-nums;min-width:11ch}
 /* project carousel */
-.projects{max-width:1040px;margin:0 auto;padding-block:88px 96px;display:flex;flex-direction:column;gap:28px}
+.projects{position:relative;z-index:1;max-width:1040px;margin:calc(-1*clamp(80px,16vh,150px)) auto 0;padding-block:24px 96px;display:flex;flex-direction:column;gap:28px}
 .pr-head{display:flex;flex-direction:column;gap:8px}
 .pr-head .eyebrow{text-align:left}
 .pr-head h2{margin:0;font:italic 500 clamp(1.9rem,4.5vw,2.8rem)/1.1 var(--f-head);color:var(--head)}
