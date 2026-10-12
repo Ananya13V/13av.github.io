@@ -328,9 +328,11 @@ h1{margin:0;font:italic 500 clamp(2.4rem,7.5vw,4.6rem)/1.08 var(--f-head);max-wi
   (function(){
     var d=$('xtl'),mk=$('xmk'),gl=$('xglow'),sunE=mk.children[0],moonE=mk.children[1];
     function tl(){
-      var r=d.getBoundingClientRect(),h=r.height,y=Math.max(8,Math.min(h-40,innerHeight*.5-r.top-16));
+      var r=d.getBoundingClientRect(),h=r.height;
+      // the marker starts at the top of the line when the section reaches mid-screen and arrives at the very end of the line once the section's bottom is near the bottom of the screen
+      var top0=innerHeight*.5-24,top1=innerHeight*.88-h,pr=Math.max(0,Math.min(1,(top0-r.top)/Math.max(1,top0-top1))),y=8+pr*(h-48);
       mk.style.setProperty('--my',y+'px');
-      var night=(y-8)/Math.max(1,h-48)>.55;
+      var night=pr>.55;
       sunE.style.opacity=night?0:1;moonE.style.opacity=night?1:0;
       var m=mk.getBoundingClientRect(),c=night?'rgba(214,224,190,.17)':'rgba(226,169,63,.2)';
       gl.style.background='radial-gradient(circle 300px at '+(m.left+16)+'px '+(m.top+16)+'px,'+c+',transparent 70%)';
